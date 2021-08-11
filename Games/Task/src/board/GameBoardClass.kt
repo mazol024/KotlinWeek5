@@ -2,7 +2,7 @@ package board
 
 import java.security.Key
 
-class GameBoardClass<T>(width1: Int) :GameBoard<T>, SquareBoardClass(width1) {
+class GameBoardClass<T>(width: Int) :GameBoard<T>, SquareBoardClass(width) {
     //val sqb:SquareBoardClass = SquareBoardClass(width1)
     val cellsMap: MutableMap<Cell,T?> = mutableMapOf<Cell,T?>()
 

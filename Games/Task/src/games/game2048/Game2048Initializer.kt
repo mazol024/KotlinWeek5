@@ -4,6 +4,7 @@ import board.Cell
 import board.GameBoard
 import kotlin.random.Random
 import board.GameBoardClass
+import board.SquareBoardClass
 
 interface Game2048Initializer<T> {
     /*
@@ -13,6 +14,7 @@ interface Game2048Initializer<T> {
 }
 
 object RandomGame2048Initializer: Game2048Initializer<Int> {
+
     private fun generateRandomStartValue(): Int =
             if (Random.nextInt(10) == 9) 4 else 2
 
@@ -24,15 +26,13 @@ object RandomGame2048Initializer: Game2048Initializer<Int> {
      * If the board is full return null.
      */
     override fun nextValue(board: GameBoard<Int?>): Pair<Cell, Int>? {
-        var cells = board.getAllCells()
-        for (i in cells )
-        var randomx = Random.nextInt(board.width+1)
-         var randomy = Random.nextInt(board.width+1)
 
-        for (cell in cells) {
-            c
-        }
-
-        return
+        var freeCells = board.filter { it == null }
+        var randomx = Random.nextInt(freeCells.size)
+        var randomy = Random.nextInt(freeCells.size)
+        var ramdomCell = board.getCell(randomx,randomy)
+        var randomValue = generateRandomStartValue()
+        board.set(ramdomCell,randomValue )
+        return Pair(ramdomCell ,randomValue)
     }
 }
