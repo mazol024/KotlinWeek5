@@ -18,6 +18,7 @@
  *
  * You can find more examples in 'TestGame2048Helper'.
 */
+
 fun <T : Any> List<T?>.moveAndMergeEqual(merge: (T) -> T): List<T> =
         TODO()
 
