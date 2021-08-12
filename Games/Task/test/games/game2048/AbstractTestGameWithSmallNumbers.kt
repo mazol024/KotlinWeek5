@@ -15,7 +15,7 @@ abstract class AbstractTestGameWithSmallNumbers {
         for (cell in board.getAllCells()) {
             val ch = input.values[cell.i - 1][cell.j - 1]
             if (ch != 0) {
-                board[cell] = ch
+                board.set(cell, ch)
             }
         }
         return board

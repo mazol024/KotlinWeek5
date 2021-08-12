@@ -1,7 +1,5 @@
 package board
 
-import java.security.Key
-
 class GameBoardClass<T>(width: Int) :GameBoard<T>, SquareBoardClass(width) {
     //val sqb:SquareBoardClass = SquareBoardClass(width1)
     val cellsMap: MutableMap<Cell,T?> = mutableMapOf<Cell,T?>()
@@ -15,8 +13,8 @@ class GameBoardClass<T>(width: Int) :GameBoard<T>, SquareBoardClass(width) {
     override fun get(cell: Cell): T? = cellsMap.get(cell)
 
 
-    override fun set(cell: Cell, v1: T?) {
-        cellsMap.put(cell,v1)
+    override fun set(cell: Cell?, v1: T?) {
+        cellsMap.put(cell!!, v1)
     }
 
     override fun filter(predicate: (T?) -> Boolean): Collection<Cell> {

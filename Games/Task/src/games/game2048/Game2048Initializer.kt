@@ -26,13 +26,10 @@ object RandomGame2048Initializer: Game2048Initializer<Int> {
      * If the board is full return null.
      */
     override fun nextValue(board: GameBoard<Int?>): Pair<Cell, Int>? {
-
-        var freeCells = board.filter { it == null }
-        var randomx = Random.nextInt(freeCells.size)
-        var randomy = Random.nextInt(freeCells.size)
-        var ramdomCell = board.getCell(randomx,randomy)
-        var randomValue = generateRandomStartValue()
-        board.set(ramdomCell,randomValue )
+        val freeCells = board.filter { it == null }
+        val ramdomCell = freeCells.random()
+        val randomValue = generateRandomStartValue()
+        //board.set(ramdomCell,randomValue )
         return Pair(ramdomCell ,randomValue)
     }
 }

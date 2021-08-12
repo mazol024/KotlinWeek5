@@ -2,6 +2,7 @@ package games.game2048
 
 import board.*
 import games.game.Game
+import board.GameBoardClass
 
 /*
  * Your task is to implement the game 2048 https://en.wikipedia.org/wiki/2048_(video_game).
@@ -38,7 +39,8 @@ class Game2048(private val initializer: Game2048Initializer<Int>) : Game {
  * Add a new value produced by 'initializer' to a specified cell in a board.
  */
 fun GameBoard<Int?>.addNewValue(initializer: Game2048Initializer<Int>) {
-    this.set(getCell())
+    val initz = initializer.nextValue(this)
+    this.set((initz?.first),initz?.second )
 }
 
 /*
