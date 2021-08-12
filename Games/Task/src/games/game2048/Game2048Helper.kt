@@ -19,7 +19,7 @@ package games.game2048
 */
 fun <T : Any> List<T?>.moveAndMergeEqual(merge: (T) -> T): List<T>
     {
-        var resList = mutableListOf<String>()
+        var resList = mutableListOf<T>()
         var source = this.filter { it != null }
         val sourceLen = source.size
         var ind1: Int = 0
@@ -31,13 +31,16 @@ fun <T : Any> List<T?>.moveAndMergeEqual(merge: (T) -> T): List<T>
         while (ind2 <= source.size ) {
             when {
                 out1 == out2 -> {
-                    resList  = resList.plus( out1 as String + out2 as String) as MutableList<String>
+                    //resList  = resList.plus( out1 as String + out2 as String) as MutableList<T>
+                    if(out1 is String)
+                        resList = resList.plus(  out1 as String +  out2 as String  )  as MutableList<T>
+                        else  resList = resList.plus(  2 * out1 as Int   )  as MutableList<T>
                     ind1 += 2
                     ind2 += 2
                 }
                 out1 != out2 -> {
-                    resList = resList.plus(out1) as MutableList<String>
-                    resList = resList.plus(out2) as MutableList<String>
+                    resList = resList.plus(out1) as MutableList<T>
+                    resList = resList.plus(out2) as MutableList<T>
                     ind1 += 2
                     ind2 += 2
                 }
