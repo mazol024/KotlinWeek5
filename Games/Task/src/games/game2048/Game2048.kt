@@ -51,12 +51,27 @@ fun GameBoard<Int?>.addNewValue(initializer: Game2048Initializer<Int>)
  * Return 'true' if the values were moved and 'false' otherwise.
  */
 fun GameBoard<Int?>.moveValuesInRowOrColumn(rowOrColumn: List<Cell>): Boolean {
+    if ( rowOrColumn.asSequence()
+            .map { (this as GameBoardClass).cellsMap.get(it) }
+        .zipWithNext{a, b -> if (a == b || a == null)  false else true }
+            .all { it == true }) return false
     var oldValues = mutableListOf<Int?>()
     for ( i in rowOrColumn) {
-        oldValues = oldValues.plus((this as GameBoardClass<Int?>).cellsMap.get(i)).toMutableList()
+        oldValues = oldValues.plus((this as GameBoardClass<Int?>)
+            .cellsMap.get(i)).filter { it != null }.toMutableList()
     }
     if (oldValues.size == 0 ) return false
     oldValues = (oldValues.moveAndMergeEqual { it.times(2) } as List<Int?>).toMutableList()
+    val indx = oldValues.size
+    var loop = 0
+    for ( i in rowOrColumn) {
+        if (loop < indx) {
+            (this as GameBoardClass).cellsMap.put(i,oldValues[loop])
+            loop++
+        } else {
+            (this as GameBoardClass).cellsMap.put(i,null)
+        }
+    }
     return true
 }
 
