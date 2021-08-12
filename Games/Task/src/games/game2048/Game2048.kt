@@ -83,5 +83,28 @@ fun GameBoard<Int?>.moveValuesInRowOrColumn(rowOrColumn: List<Cell>): Boolean {
  * Return 'true' if the values were moved and 'false' otherwise.
  */
 fun GameBoard<Int?>.moveValues(direction: Direction): Boolean {
-    TODO()
+    var moved = false
+    when (direction) {
+        Direction.RIGHT, Direction.LEFT -> {
+            for (row in 1..width) {
+                var rowData = this.getRow(row, 1..width)
+                if (direction == Direction.RIGHT) {
+                    moved = this.moveValuesInRowOrColumn(rowData.reversed()) || moved
+                } else {
+                    moved = this.moveValuesInRowOrColumn(rowData) || moved
+                }
+            }
+        }
+        Direction.DOWN, Direction.UP -> {
+            for (column in 1..width) {
+                var columnData = this.getColumn( 1..width,column)
+                if (direction == Direction.DOWN) {
+                   moved = this.moveValuesInRowOrColumn(columnData.reversed()) || moved
+                } else {
+                   moved = this.moveValuesInRowOrColumn(columnData) || moved
+                }
+            }
+        }
+    }
+    return moved
 }
