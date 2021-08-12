@@ -17,16 +17,39 @@ package games.game2048
  *
  * You can find more examples in 'TestGame2048Helper'.
 */
-fun <T : Any> List<T?>.moveAndMergeEqual(merge: (T) -> T): List<T> =
-                this.filter { it != null }
-                        .zipWithNext()
-                        .flatMap{
-                                it ->
-                                when(it.first == it.second) {
-                                        it.first is String -> (it.first as String + it.first as String)
-                                        it.first is Int -> (2 * it.first as Int)
-                                        else  -> it.toList()
-                                } as Iterable<T>
-                }.toList()
+fun <T : Any> List<T?>.moveAndMergeEqual(merge: (T) -> T): List<T>
+    {
+        var resList = mutableListOf<String>()
+        var source = this.filter { it != null }
+        val sourceLen = source.size
+        var ind1: Int = 0
+        var ind2: Int = 1
+        if ( sourceLen == 1 ) return resList.plus(source[ind1]) as List<T>
+
+        var out1: Any = source[ind1]!!
+        var out2: Any = source[ind2]!!
+        while (ind2 <= source.size ) {
+            when {
+                out1 == out2 -> {
+                    resList  = resList.plus( out1 as String + out2 as String) as MutableList<String>
+                    ind1 += 2
+                    ind2 += 2
+                }
+                out1 != out2 -> {
+                    resList = resList.plus(out1) as MutableList<String>
+                    resList = resList.plus(out2) as MutableList<String>
+                    ind1 += 2
+                    ind2 += 2
+                }
+            }
+            if ( ind1 + 1 > sourceLen  ) return  resList as List<T>
+            else if (ind2 + 1 > sourceLen && ind1 + 1 == sourceLen ) return resList.plus(source[ind1]) as List<T>
+            else {
+                out1=source[ind1]!!
+                out2=source[ind2]!!
+            }
+        }
+        return resList as List<T>
+    }
 
 
