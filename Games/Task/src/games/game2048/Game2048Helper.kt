@@ -18,5 +18,15 @@ package games.game2048
  * You can find more examples in 'TestGame2048Helper'.
 */
 fun <T : Any> List<T?>.moveAndMergeEqual(merge: (T) -> T): List<T> =
-        TODO()
+                this.filter { it != null }
+                        .zipWithNext()
+                        .flatMap{
+                                it ->
+                                when(it.first == it.second) {
+                                        it.first is String -> (it.first as String + it.first as String)
+                                        it.first is Int -> (2 * it.first as Int)
+                                        else  -> it.toList()
+                                } as Iterable<T>
+                }.toList()
+
 
