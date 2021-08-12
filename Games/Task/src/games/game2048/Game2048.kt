@@ -38,11 +38,10 @@ class Game2048(private val initializer: Game2048Initializer<Int>) : Game {
 /*
  * Add a new value produced by 'initializer' to a specified cell in a board.
  */
-fun GameBoard<Int?>.addNewValue(initializer: Game2048Initializer<Int>) {
-    val initz = initializer.nextValue(this)
-    this.set((initz?.first),initz?.second )
-}
-
+fun GameBoard<Int?>.addNewValue(initializer: Game2048Initializer<Int>)
+    {    val initz = initializer.nextValue(this)
+        this.set((initz?.first),initz?.second )
+    }
 /*
  * Update the values stored in a board,
  * so that the values were "moved" in a specified rowOrColumn only.
@@ -52,7 +51,13 @@ fun GameBoard<Int?>.addNewValue(initializer: Game2048Initializer<Int>) {
  * Return 'true' if the values were moved and 'false' otherwise.
  */
 fun GameBoard<Int?>.moveValuesInRowOrColumn(rowOrColumn: List<Cell>): Boolean {
-    TODO()
+    var oldValues = mutableListOf<Int?>()
+    for ( i in rowOrColumn) {
+        oldValues = oldValues.plus((this as GameBoardClass<Int?>).cellsMap.get(i)).toMutableList()
+    }
+    if (oldValues.size == 0 ) return false
+    oldValues = (oldValues.moveAndMergeEqual { it.times(2) } as List<Int?>).toMutableList()
+    return true
 }
 
 /*

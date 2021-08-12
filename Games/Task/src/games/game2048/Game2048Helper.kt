@@ -15,7 +15,8 @@ package games.game2048
  *   a, a, null, a -> aa, a
  *   a, null, a, a -> aa, a
  *
- * You can find more examples in 'TestGame2048Helper'.
+ * You can find more examples in 'Test
+ * Game2048Helper'.
 */
 fun <T : Any> List<T?>.moveAndMergeEqual(merge: (T) -> T): List<T>
     {
@@ -32,9 +33,10 @@ fun <T : Any> List<T?>.moveAndMergeEqual(merge: (T) -> T): List<T>
             when {
                 out1 == out2 -> {
                     //resList  = resList.plus( out1 as String + out2 as String) as MutableList<T>
-                    if(out1 is String)
-                        resList = resList.plus(  out1 as String +  out2 as String  )  as MutableList<T>
-                        else  resList = resList.plus(  2 * out1 as Int   )  as MutableList<T>
+                    resList = resList.plus( merge(out1 as T)) as MutableList<T>
+//                    if(out1 is String)
+//                        resList = resList.plus(  out1 as String +  out2 as String  )  as MutableList<T>
+//                        else  resList = resList.plus(  2 * out1 as Int   )  as MutableList<T>
                     ind1 += 2
                     ind2 += 2
                 }
@@ -54,5 +56,4 @@ fun <T : Any> List<T?>.moveAndMergeEqual(merge: (T) -> T): List<T>
         }
         return resList as List<T>
     }
-
 
