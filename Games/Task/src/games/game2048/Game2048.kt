@@ -90,6 +90,7 @@ fun GameBoard<Int?>.moveValues(direction: Direction): Boolean {
                 var rowData = this.getRow(row, 1..width)
                 if (direction == Direction.RIGHT) {
                     moved = this.moveValuesInRowOrColumn(rowData.reversed()) || moved
+                    rowData.reversed()
                 } else {
                     moved = this.moveValuesInRowOrColumn(rowData) || moved
                 }
@@ -100,6 +101,7 @@ fun GameBoard<Int?>.moveValues(direction: Direction): Boolean {
                 var columnData = this.getColumn( 1..width,column)
                 if (direction == Direction.DOWN) {
                    moved = this.moveValuesInRowOrColumn(columnData.reversed()) || moved
+                    columnData.reversed()
                 } else {
                    moved = this.moveValuesInRowOrColumn(columnData) || moved
                 }

@@ -53,12 +53,12 @@ fun <T : Any> List<T?>.moveAndMergeEqual(merge: (T) -> T): List<T>
                     }
                     firstElement != secondElement -> {
                         resList = resList.plus(firstElement as T) as MutableList<T>
-                        resList = resList.plus(secondElement as T) as MutableList<T>
-                        listIndex +=2
+                        //resList = resList.plus(secondElement as T) as MutableList<T>
+                        listIndex +=1
                     }
                 }
             } while (listIndex < source.size - 1)
-            if (sourceLen%2 != 0 ) resList = resList.plus(source.last()) as MutableList<T>
+            if (listIndex < source.size ) resList = resList.plus(source.last()) as MutableList<T>
             return resList as List<T>
 
 
