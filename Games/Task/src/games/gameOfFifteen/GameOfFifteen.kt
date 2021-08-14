@@ -15,14 +15,12 @@ fun newGameOfFifteen(initializer: GameOfFifteenInitializer = RandomGameInitializ
 class GameOfFifteen(val initializer: GameOfFifteenInitializer ):Game {
 
     private val board: GameBoardClass<Int?> = createGameBoard<Int?>(4) as GameBoardClass<Int?>
-    //var gameList: MutableList<Int> = mutableListOf()
+    var gameList: MutableList<Int> = mutableListOf()
+    //var gameList = RandomGameInitializer().initialPermutation
+
+
     override fun initialize() {
-        println("Strting...")
-        var gameList = RandomGameInitializer().initialPermutation
-//         while (! isEven(gameList) && gameList.size < 16 ) {
-//             gameList = RandomGameInitializer().initialPermutation
-//         }
-        println("All numbers $gameList and size ${gameList.size}")
+        gameList = (this.initializer.initialPermutation as List<Int>).toMutableList()
         var idx = 0
         var maxidx = gameList.size
         for (  cell1  in this.board.cellsMap.keys ) {
@@ -31,7 +29,6 @@ class GameOfFifteen(val initializer: GameOfFifteenInitializer ):Game {
                 println("idx $idx cell $cell1 value ${gameList.get(idx)}")
                 idx++
             }
-                //this.board.cellsMap.set(cell1, null)
         }
         println("CellsMap Values ${board.cellsMap.values}\n CellsMap Keys ${board.cellsMap.keys}\n ")
         println("Matrix is ${this.board.cellsMap}")
@@ -42,18 +39,16 @@ class GameOfFifteen(val initializer: GameOfFifteenInitializer ):Game {
     }
 
     override fun hasWon(): Boolean {
-        return this.board
-            .cellsMap.values
-            .asSequence()
-            .zipWithNext()
-            .filter {pair -> pair.first?:0 < pair.second?:0 }
-            .take(15).any { false }
-//        return if (this.board.cellsMap
-//            .values
-//            .zipWithNext()
-//            .filter { pair -> if (pair.first!! < pair.second!! && pair.first!! > 0 ) true else false}
-//            .take(15)
-//            .all { true }) true else false
+        var minV = 1
+        for ((_,V) in board.cellsMap.entries) {
+            if (minV == V?:0){
+                minV ++
+                if (minV == 15) return true
+            } else {
+                return false
+            }
+        }
+        return true
     }
 
     override fun processMove(direction: Direction) {
@@ -63,19 +58,19 @@ class GameOfFifteen(val initializer: GameOfFifteenInitializer ):Game {
                var row = this.board.getRow( emptyCell!!.i,1..4) as MutableList<Cell>
                 when (direction){
                     Direction.RIGHT -> {
-                        row.reversed()
-                        var emptyCell = row.find { board.cellsMap.getValue(it) == null }
-                        if (emptyCell?.i!! < row.size) {
-                            board.cellsMap.put(emptyCell,board.cellsMap.getValue(Cell(emptyCell.i+1,emptyCell.j)))
-                            board.cellsMap.put(Cell(emptyCell.i+1 ,emptyCell.j),null)
+                        //row.reversed()
+//                        var emptyCell = row.find { board.cellsMap.getValue(it) == null }
+                        if (emptyCell?.j!! <= row.size && emptyCell?.j!! > 1 ) {
+                            board.cellsMap.put(emptyCell,board.cellsMap.getValue(Cell(emptyCell.i,emptyCell.j-1)))
+                            board.cellsMap.put(Cell(emptyCell.i ,emptyCell.j-1),null)
                         }
                     }
                     Direction.LEFT -> {
 
-                        var emptyCell = row.find { board.cellsMap.getValue(it) == null }
-                        if (emptyCell?.i!! < row.size) {
-                            board.cellsMap.put(emptyCell,board.cellsMap.getValue(Cell(emptyCell.i+1,emptyCell.j)))
-                            board.cellsMap.put(Cell(emptyCell.i+1 ,emptyCell.j),null)
+//                        var emptyCell = row.find { board.cellsMap.getValue(it) == null }
+                        if (emptyCell?.j!! >= 1 && emptyCell?.j!! < 4) {
+                            board.cellsMap.put(emptyCell,board.cellsMap.getValue(Cell(emptyCell.i,emptyCell.j+1)))
+                            board.cellsMap.put(Cell(emptyCell.i ,emptyCell.j+1),null)
                         }
                     }
                 }
@@ -84,14 +79,14 @@ class GameOfFifteen(val initializer: GameOfFifteenInitializer ):Game {
                var column = this.board.getColumn(1..4,emptyCell!!.j)
                 when (direction) {
                 Direction.DOWN -> {
-                    column.reversed()
-                    if (emptyCell?.i!! < column.size) {
-                        board.cellsMap.put(emptyCell,board.cellsMap.getValue(Cell(emptyCell.i+1,emptyCell.j)))
-                        board.cellsMap.put(Cell(emptyCell.i+1 ,emptyCell.j),null)
+//                    column.reversed()
+                    if (emptyCell?.i!! <= column.size && emptyCell?.i!! > 1) {
+                        board.cellsMap.put(emptyCell,board.cellsMap.getValue(Cell(emptyCell.i-1,emptyCell.j)))
+                        board.cellsMap.put(Cell(emptyCell.i-1 ,emptyCell.j),null)
                     }
                 }
                     Direction.UP -> {
-                        if (emptyCell?.i!! < column.size) {
+                        if (emptyCell?.i!! >= 1 && emptyCell?.i!! < 4) {
                             board.cellsMap.put(emptyCell,board.cellsMap.getValue(Cell(emptyCell.i+1,emptyCell.j)))
                             board.cellsMap.put(Cell(emptyCell.i+1 ,emptyCell.j),null)
                     }
