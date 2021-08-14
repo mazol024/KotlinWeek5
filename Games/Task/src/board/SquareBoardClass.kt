@@ -39,7 +39,7 @@ open class SquareBoardClass(override val width: Int) :SquareBoard {
         return cellslist
     }
 
-    override fun Cell.getNeighbour(direction: Direction): Cell? {
+     override fun Cell.getNeighbour(direction: Direction): Cell? {
         return when {
             direction == Direction.LEFT -> if (getCell(this.i, this.j).j == 1) return null else return getCell(
                 this.i,
